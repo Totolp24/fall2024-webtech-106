@@ -1,7 +1,42 @@
-Lab 01
+# Lab Webtech v2.1
 
-Server Http created
+## 🚀 Objective
 
-Installation Nodemon
+This project aims to [briefly describe the objective of the project]. The key goals of this project are:
+- Create a server from scratch
+- Create an API
 
-Basic Application
+## 📋 Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- You have a Linux_System machine
+- You have installed the following dependencies :
+  1. [Node.js](https://example.com).
+  
+   ```bash
+   npm install nodemon
+   ```
+
+   2. [Express.js](https://example.com).
+    ```bash
+   npm install express
+    ```
+   
+
+
+## ⚙️ Commands
+
+To run the project use this commands
+
+1. Start the server:
+   ```bash
+   npm start
+   ```
+   OU
+   ```bash
+   node index.js
+   ```
+   
+3. Stop the server:
+   - CTRL^C
