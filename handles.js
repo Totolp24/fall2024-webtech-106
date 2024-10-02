@@ -1,23 +1,16 @@
+const express = require('express');
+const router = express.Router();
 
-const url = require('url')
-const qs = require('querystring')
+// Route pour /hello
+router.get('/hello', (req, res) => {
+    const name = req.query.name; // Récupérer le paramètre de requête 'name'
+  
+    // Vérifier si le paramètre 'name' est présent
+    if (name) {
+        res.send(`Hello ${name}`);
+    } else {
+        res.send('Hello anonymous');
+    }
+});
 
-// ./handles.js
-// Necessary imports
-module.exports = {
-    serverHandle: function (req, res) {
-        const route = url.parse(req.url)
-        const path = route.pathname 
-        const params = qs.parse(route.query)
-      
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-      
-        if (path === '/hello' && 'name' in params) {
-          res.write('Hello ' + params['name'])
-        } else {
-          res.write('Hello anonymous')
-        }
-        
-        res.end();
-      }
-  }
+module.exports = router;
