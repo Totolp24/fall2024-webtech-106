@@ -12,13 +12,13 @@ Before you begin, ensure you have met the following requirements:
 
 - You have a Linux_System machine
 - You have installed the following dependencies :
-  1. [Node.js](https://example.com).
+  1. [Node.js]([https://nodejs.org/en]).
   
    ```bash
    npm install nodemon
    ```
 
-   2. [Express.js](https://example.com).
+   2. [Express.js]([https://expressjs.com/]).
     ```bash
    npm install express
     ```
