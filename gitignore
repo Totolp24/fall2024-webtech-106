@@ -1,2 +1,5 @@
 #ignorer le dossier node_modules
 node_modules
+
+#ignorer le fichier package-lock
+package-lock

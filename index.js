@@ -1,9 +1,12 @@
 const express = require('express');
-const handles = require('./handles'); // Vérifie le chemin
+const handles = require('./handles'); 
+const articlesRoutes = require('./articles'); 
+const commentsRoutes = require('./comments'); 
 const app = express();
 const port = 8080;
 
-// Route pour la page d'accueil
+app.use(express.json()); 
+
 app.get('/', (req, res) => {
     const content = '<!DOCTYPE html>' +
         '<html>' +
@@ -18,10 +21,10 @@ app.get('/', (req, res) => {
     res.send(content);
 });
 
-// Utiliser le routeur handles pour /handles
-app.use('/handles', handles); // Ajoute ce code pour intégrer le routeur
+app.use('/handles', handles); 
+app.use('/articles', articlesRoutes); 
+app.use('/articles', commentsRoutes); 
 
-// Lancer le serveur sur le port 8080
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
 });
