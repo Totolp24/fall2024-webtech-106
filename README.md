@@ -61,6 +61,9 @@ The following pages are available :
 
 ## 🛠️ Devlog
 
-Installation of Next.js app :
+Installation of Next.js app
+
 Adding pages
+
 Usage of Tailwind
+
