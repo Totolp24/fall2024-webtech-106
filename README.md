@@ -1,4 +1,4 @@
-# Lab Webtech v4.2
+# Lab Webtech v5.2
 
 ## 🚀 Objective
 
@@ -58,3 +58,9 @@ The following pages are available :
 ```bash
    /articles
    ```
+
+## 🛠️ Devlog
+
+Installation of Next.js app :
+Adding pages
+Usage of Tailwind
