@@ -1,10 +1,11 @@
-# Lab Webtech v2.1
+# Lab Webtech v4.2
 
 ## 🚀 Objective
 
-This project aims to [briefly describe the objective of the project]. The key goals of this project are:
+The key goals of this project are:
 - Create a server from scratch
 - Create an API
+- Create Website with framework and library
 
 ## 📋 Prerequisites
 
@@ -22,7 +23,6 @@ Before you begin, ensure you have met the following requirements:
     ```bash
    npm install express
     ```
-   
 
 
 ## ⚙️ Commands
@@ -31,12 +31,30 @@ To run the project use this commands
 
 1. Start the server:
    ```bash
-   npm start
-   ```
-   OU
-   ```bash
-   node index.js
+   npm run dev
    ```
    
-3. Stop the server:
+2. Stop the server:
    - CTRL^C
+  
+
+## 📄 Pages
+
+The following pages are available :
+
+1. Home page
+   ```bash
+   /
+   ```
+2. about page
+   ```bash
+   /about
+   ```
+3. contacts page
+   ```bash
+   /contacts
+   ```
+4. a list of articles
+```bash
+   /articles
+   ```
