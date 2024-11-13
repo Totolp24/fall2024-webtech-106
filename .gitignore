@@ -1,9 +1,18 @@
-#ignorer le dossier node_modules
-node_modules/ 
+# Node modules
+node_modules/
 
-#ignorer le fichier package-lock
-package-lock
+# Logs
+logs/
+*.log
 
-#ignorer le fichier DS_Store
+# Environment variables
+.env
+
+# MacOS
 .DS_Store
 
+# Vercel
+.vercel/
+
+# Supabase
+supabase/.env
