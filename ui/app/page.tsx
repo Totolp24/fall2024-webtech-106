@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 import "./globals.css";
-import Layout from '../components/Layout';
+//import Layout from '../components/Layout';
 
 // app/about/page.tsx
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 // Définir un type pour les contacts
 interface Contact {
@@ -20,8 +20,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // Fonction pour récupérer les contacts depuis Supabase
 async function fetchContacts(): Promise<Contact[]> {
   const { data, error } = await supabase
-    .from('contacts') // Table 'contacts' dans Supabase
-    .select('*'); // Sélectionner toutes les colonnes
+    .from("contacts") // Table 'contacts' dans Supabase
+    .select("*"); // Sélectionner toutes les colonnes
 
   if (error) {
     console.error(error);
