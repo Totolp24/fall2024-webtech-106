@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from '@/component/Header';
-import { createClient } from '@/utils/supabase/clients'; // Utiliser le client Supabase côté navigateur
+import Header from "@/component/Header";
+import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
 import Cookies from 'js-cookie'; // Importer js-cookie pour gérer les cookies
 
 const Signup: React.FC = () => {
@@ -22,11 +22,11 @@ const Signup: React.FC = () => {
     if (error) {
       setError(error.message); // Afficher l'erreur
     } else {
-      alert('Inscription réussie ! Un email de confirmation a été envoyé.');
+      alert("Inscription réussie ! Un email de confirmation a été envoyé.");
       // Vous pouvez ajouter une logique pour rediriger ou afficher un message supplémentaire
 
       // Stocker l'authentification dans un cookie (optionnel)
-      Cookies.set('user', JSON.stringify(user), { expires: 7 }); // 7 jours d'expiration
+      Cookies.set("user", JSON.stringify(user), { expires: 7 }); // 7 jours d'expiration
 
       // Rediriger ou gérer l'état ici
       // Exemple : router.push("/dashboard");
