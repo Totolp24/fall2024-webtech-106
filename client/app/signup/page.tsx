@@ -5,16 +5,16 @@ import Header from '@/component/Header';
 import { createClient } from '@/utils/supabase/clients'; // Utiliser le client Supabase côté navigateur
 import Cookies from 'js-cookie'; // Importer js-cookie pour gérer les cookies
 
-const User: React.FC = () => {
+const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null); // Type explicite pour l'erreur
 
-  const handleLogin = async (event: React.FormEvent) => {
+  const handleSignup = async (event: React.FormEvent) => {
     event.preventDefault(); // Empêcher le rechargement de la page
 
     const supabase = createClient();
-    const { user, error } = await supabase.auth.signInWithPassword({
+    const { user, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -22,7 +22,9 @@ const User: React.FC = () => {
     if (error) {
       setError(error.message); // Afficher l'erreur
     } else {
-      alert('Connexion réussie !');
+      alert('Inscription réussie ! Un email de confirmation a été envoyé.');
+      // Vous pouvez ajouter une logique pour rediriger ou afficher un message supplémentaire
+
       // Stocker l'authentification dans un cookie (optionnel)
       Cookies.set('user', JSON.stringify(user), { expires: 7 }); // 7 jours d'expiration
 
@@ -36,11 +38,11 @@ const User: React.FC = () => {
       <Header />
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <form
-          onSubmit={handleLogin}
+          onSubmit={handleSignup}
           className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md"
         >
           <h2 className="mb-6 text-2xl font-bold text-center text-gray-700">
-            Connexion
+            Inscription
           </h2>
 
           <div className="mb-4">
@@ -83,7 +85,7 @@ const User: React.FC = () => {
             type="submit"
             className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           >
-            Se connecter
+            S'inscrire
           </button>
 
           {error && <p className="mt-4 text-red-500 text-center">{error}</p>} {/* Afficher l'erreur */}
@@ -93,4 +95,4 @@ const User: React.FC = () => {
   );
 };
 
-export default User;
+export default Signup;
