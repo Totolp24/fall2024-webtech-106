@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from '@/component/Header';
-import { createClient } from '@/utils/supabase/clients'; // Utiliser le client Supabase côté navigateur
+import Header from "@/component/Header";
+import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
 import Cookies from 'js-cookie'; // Importer js-cookie pour gérer les cookies
 
 const User: React.FC = () => {
@@ -22,7 +22,7 @@ const User: React.FC = () => {
     if (error) {
       setError(error.message); // Afficher l'erreur
     } else {
-      alert('Connexion réussie !');
+      alert("Connexion réussie !");
       // Stocker l'authentification dans un cookie (optionnel)
       Cookies.set('user', JSON.stringify(user), { expires: 7 }); // 7 jours d'expiration
 
