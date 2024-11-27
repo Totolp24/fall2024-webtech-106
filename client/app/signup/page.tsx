@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
-import Cookies from 'js-cookie'; // Importer js-cookie pour gérer les cookies
+import Cookies from "js-cookie"; // Importer js-cookie pour gérer les cookies
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ const Signup: React.FC = () => {
     event.preventDefault(); // Empêcher le rechargement de la page
 
     const supabase = createClient();
-    const { user, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -26,7 +26,7 @@ const Signup: React.FC = () => {
       // Vous pouvez ajouter une logique pour rediriger ou afficher un message supplémentaire
 
       // Stocker l'authentification dans un cookie (optionnel)
-      Cookies.set("user", JSON.stringify(user), { expires: 7 }); // 7 jours d'expiration
+      Cookies.set("user", JSON.stringify(data), { expires: 7 }); // 7 jours d'expiration
 
       // Rediriger ou gérer l'état ici
       // Exemple : router.push("/dashboard");
@@ -85,9 +85,8 @@ const Signup: React.FC = () => {
             type="submit"
             className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           >
-            S'inscrire
+            Inscription
           </button>
-
           {error && <p className="mt-4 text-red-500 text-center">{error}</p>} {/* Afficher l'erreur */}
         </form>
       </div>

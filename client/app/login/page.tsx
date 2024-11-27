@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
-import Cookies from 'js-cookie'; // Importer js-cookie pour gérer les cookies
+import Cookies from "js-cookie"; // Importer js-cookie pour gérer les cookies
 
 const User: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ const User: React.FC = () => {
     event.preventDefault(); // Empêcher le rechargement de la page
 
     const supabase = createClient();
-    const { user, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -24,7 +24,7 @@ const User: React.FC = () => {
     } else {
       alert("Connexion réussie !");
       // Stocker l'authentification dans un cookie (optionnel)
-      Cookies.set('user', JSON.stringify(user), { expires: 7 }); // 7 jours d'expiration
+      Cookies.set('user', JSON.stringify(data), { expires: 7 }); // 7 jours d'expiration
 
       // Rediriger ou gérer l'état ici
       // Exemple : router.push("/dashboard");
@@ -85,7 +85,6 @@ const User: React.FC = () => {
           >
             Se connecter
           </button>
-
           {error && <p className="mt-4 text-red-500 text-center">{error}</p>} {/* Afficher l'erreur */}
         </form>
       </div>
