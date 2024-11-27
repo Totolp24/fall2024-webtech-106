@@ -10,7 +10,7 @@ const Home = () => {
           <Header/>
         </div>
       <Head>
-        <title>Page d'Accueil Épurée</title>
+        <title>Page  Épurée</title>
         <meta name="description" content="Exemple d'une page avec Next.js et Tailwind CSS" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -20,9 +20,9 @@ const Home = () => {
 
         
         <div className="text-center p-8 bg-white shadow-lg rounded-lg max-w-lg w-full">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Bienvenue sur notre site !</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Bienvenue sur notre site </h1>
           <p className="text-lg text-gray-600 mb-6">
-            Cette page  est construite avec Next.js et Tailwind CSS, dans un style épuré.
+            Cette page  est construite avec Nextjs et Tailwind CSS dans un style épuré
           </p>
           <button className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
             En savoir plus
