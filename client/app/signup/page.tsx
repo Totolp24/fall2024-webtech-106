@@ -33,6 +33,23 @@ const Signup: React.FC = () => {
     }
   };
 
+
+  const handleGitHubLogin = async () => {
+    const supabase = createClient();
+
+    // Rediriger l'utilisateur vers la page de connexion GitHub
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+    });
+
+    if (error) {
+      setError(error.message); // Afficher l'erreur en cas de problème
+    } else {
+      // Normalement, Supabase gère automatiquement la redirection après la connexion OAuth
+      // Vous pouvez gérer l'état ou rediriger manuellement ici si nécessaire
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -87,6 +104,9 @@ const Signup: React.FC = () => {
           >
             Inscription
           </button>
+          <button  onClick={handleGitHubLogin}
+            className="w-full px-4 py-2 text-white bg-black rounded-lg hover:bg-gray-800 focus:ring-2 focus:ring-black focus:ring-opacity-50"
+          > GitHub</button>
           {error && <p className="mt-4 text-red-500 text-center">{error}</p>} {/* Afficher l'erreur */}
         </form>
       </div>
