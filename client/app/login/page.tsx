@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from "@/component/Header";
+import Header from "@/component/header";
 import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
 import Cookies from "js-cookie"; // Importer js-cookie pour gérer les cookies
 
