@@ -1,6 +1,5 @@
 "use client";
 
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import React, { useState} from "react";
@@ -63,6 +62,8 @@ const Signup: React.FC = () => {
       } else {
         alert("Inscription réussie ! Un email de confirmation a été envoyé.");
       
+        if (data?.user) { // Vérification que data.user n'est pas null
+          // Ajouter l'utilisateur dans la table 'userData' après une inscription réussie dans Supabase Auth
           const { error: insertError } = await supabase
             .from("userData")
             .insert([{ mail: email, username: username, userid: data.user.id }]);
@@ -71,7 +72,9 @@ const Signup: React.FC = () => {
             console.error("Erreur lors de l'ajout dans userData:", insertError.message);
             setError(`Erreur lors de l'ajout des données utilisateur dans la table 'userData': ${insertError.message}`);
           }
-
+        } else {
+          setError("Utilisateur non trouvé après l'inscription.");
+        }
       }
       
     }
