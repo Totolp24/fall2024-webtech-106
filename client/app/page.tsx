@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Header from "@/component/header";
+import Header from "@/component/Header";
 
 const HomePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);

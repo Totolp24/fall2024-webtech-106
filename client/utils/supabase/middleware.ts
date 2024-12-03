@@ -1,31 +1,85 @@
-import { createClient as createServerClient } from "@supabase/supabase-js";
-import { NextRequest, NextResponse } from "next/server";
 
-// Fonction middleware pour utiliser le client Supabase
-export const createClient = (request: NextRequest) => {
-  // Créer le client Supabase sans inclure 'cookies' dans ses options
+import { createServerClient } from "@supabase/ssr"
+import { NextResponse, type NextRequest } from "next/server"
+
+export async function updateSession(request: NextRequest) {
+  let supabaseResponse = NextResponse.next({
+    request,
+  })
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          supabaseResponse = NextResponse.next({
+            request,
+          })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          )
+        },
+      },
+    }
+  )
 
-  // Créer une instance de NextResponse pour manipuler les cookies
-  const supabaseResponse = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
+  // IMPORTANT: Avoid writing any logic between createServerClient and
+  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
+  // issues with users being randomly logged out.
 
-  // Gérer les cookies dans la requête
-  const cookies = request.cookies;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  // Exemple de récupération des cookies
-  const userCookie = cookies.get("user");
-  console.log("User Cookie:", userCookie);
+  if(!user){
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
 
-  // Exemple d'ajout d'un cookie à la réponse
-  supabaseResponse.cookies.set("newCookie", "value", { path: "/" });
+    console.log("CHips");
+  }
+  if (
+    !user &&
+    !request.nextUrl.pathname.startsWith("/login") 
+    && !request.nextUrl.pathname.startsWith("/auth")
+    && !request.nextUrl.pathname.startsWith("/allPost") 
+    && !request.nextUrl.pathname.startsWith("/signup")
+    && !request.nextUrl.pathname.endsWith("/")
+  ){
+    // no user, potentially respond by redirecting the user to the login page
+    const url = request.nextUrl.clone()
+    url.pathname = "/login"
+    return NextResponse.redirect(url)
+  }
 
-  // Retourner la réponse avec les cookies gérés
-  return supabaseResponse;
-};
+  if(user && request.nextUrl.pathname.startsWith("/login")){
+    const url = request.nextUrl.clone()
+    url.pathname = "/user"
+    return NextResponse.redirect(url)
+  }
+
+
+
+
+
+
+  // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
+  // creating a new response object with NextResponse.next() make sure to:
+  // 1. Pass the request in it, like so:
+  //    const myNewResponse = NextResponse.next({ request })
+  // 2. Copy over the cookies, like so:
+  //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
+  // 3. Change the myNewResponse object to fit your needs, but avoid changing
+  //    the cookies!
+  // 4. Finally:
+  //    return myNewResponse
+  // If this is not done, you may be causing the browser and server to go out
+  // of sync and terminate the user's session prematurely!
+
+  return supabaseResponse
+}

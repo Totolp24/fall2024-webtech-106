@@ -1,12 +1,8 @@
 "use client";
 
-<<<<<<< HEAD
-import React, { useState } from "react";
-import Header from "@/component/Header";
-=======
+
 import React, { useState, useEffect } from "react";
-import Header from "@/component/header";
->>>>>>> 46812e8 (fix: auth and register with supabase)
+import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
 import Cookies from "js-cookie"; // Importer js-cookie pour gérer les cookies
 
@@ -62,7 +58,6 @@ const Signup: React.FC = () => {
         console.error("Erreur lors de l'ajout dans userData:", insertError.message);
         setError(`Erreur lors de l'ajout des données utilisateur dans la table 'userData': ${insertError.message}`);
       } else {
-        Cookies.set("user", JSON.stringify(data), { expires: 7 }); // 7 jours d'expiration
       }
     }
   };

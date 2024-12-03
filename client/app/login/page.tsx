@@ -11,18 +11,6 @@ const User: React.FC = () => {
   const [error, setError] = useState<string | null>(null); // Type explicite pour l'erreur
   const [user, setUser] = useState<any>(null); // État pour l'utilisateur
 
-  useEffect(() => {
-    const userFromCookie = Cookies.get("user");
-
-    // Tenter de parser le cookie 'user', mais capturer les erreurs si nécessaire
-    try {
-      if (userFromCookie) {
-        setUser(JSON.parse(userFromCookie));
-      }
-    } catch (error) {
-      console.error("Erreur lors du parsing du cookie user", error);
-    }
-  }, []);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault(); // Empêcher le rechargement de la page
@@ -35,13 +23,8 @@ const User: React.FC = () => {
 
     if (error) {
       setError(error.message); // Afficher l'erreur
-    } else {
-      alert("Connexion réussie !");
-      // Stocker l'authentification dans un cookie (optionnel)
-      Cookies.set('user', JSON.stringify(data), { expires: 7 }); // 7 jours d'expiration
-
-      // Vous pouvez maintenant rediriger l'utilisateur ou mettre à jour l'état de l'application
-      setUser(data); // Mettez à jour l'état de l'utilisateur si nécessaire
+    }else{
+      alert("Connexion Reussi");
     }
   };
 
@@ -51,11 +34,15 @@ const User: React.FC = () => {
     // Rediriger l'utilisateur vers la page de connexion GitHub
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
+      options: {
+        redirectTo: `http://localhost:3000/auth/callback`,
+      },
     });
 
     if (error) {
       setError(error.message); // Afficher l'erreur en cas de problème
     } else {
+      
       // Normalement, Supabase gère automatiquement la redirection après la connexion OAuth
       // Vous pouvez gérer l'état ou rediriger manuellement ici si nécessaire
     }

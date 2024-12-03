@@ -1,21 +1,33 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createClient } from "@/utils/supabase/clients";
+import { User } from '@supabase/supabase-js'; // Import the User type
 import Link from "next/link";
 
-const Header: React.FC = () => {
-  const [isClient, setIsClient] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // État pour vérifier si l'utilisateur est connecté
+export default function Header() {
+  const [user, setUser] = useState<User | null>(null); // State to store the user
+  const supabase = createClient();
 
-  useEffect(() => {
-    setIsClient(true);
-    // Vérifiez ici si l'utilisateur est connecté (exemple avec localStorage ou un autre mécanisme)
-    // setIsLoggedIn(localStorage.getItem("user") ? true : false);
-  }, []);
+  
+  // Fetch the user when the component mounts
+  const connected = async ()=>{
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    setUser(user);
+  };
 
-  if (!isClient) {
-    return null;
-  }
+  connected();
+
+  const signout = async () => {
+    await supabase.auth.signOut();
+    setUser(null); // Clear the user state after signing out
+  };
+
+
+
+
 
   return (
     <header className="w-full bg-gradient-to-r from-blue-800 to-blue-600 shadow-md py-4">
@@ -53,25 +65,25 @@ const Header: React.FC = () => {
         {/* Conteneur du bouton séparé à droite */}
         <div className="ml-auto">
           {/* Bouton dynamique en fonction de l'état de connexion */}
-          {!isLoggedIn ? (
+          {!user?(
             <Link
               href="/login"
               className="bg-transparent text-white border-2 border-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105"
             >
               Se connecter
             </Link>
-          ) : (
+) : (
             <button
               className="bg-transparent text-white border-2 border-red-700 hover:bg-white hover:text-red-700 hover:border-red-700 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105"
-              onClick={() => alert("Déconnexion")} // Logique de déconnexion à ajouter ici
+              onClick={signout}
             >
               Se déconnecter
             </button>
-          )}
+          )
+
+          }
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

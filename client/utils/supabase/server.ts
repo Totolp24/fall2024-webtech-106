@@ -1,23 +1,29 @@
-import { createClient as createServerClient } from "@supabase/supabase-js";
-import { cookies } from "next/headers";
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 
-// Fonction pour créer un client Supabase côté serveur
-export const createClient = async () => {
-  // Créer le client Supabase sans inclure l'option 'cookies'
-  const supabase = createServerClient(
+export async function createClient() {
+  const cookieStore = await cookies()
+
+  return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-
-  // Résoudre les cookies en utilisant 'await' pour accéder aux cookies côté serveur
-  const cookieStore = await cookies();
-  
-  // Utiliser la méthode cookies pour récupérer un cookie spécifique
-  const userCookie = cookieStore.get("user");  // Exemple pour récupérer un cookie nommé "user"
-  console.log("User cookie:", userCookie);
-
-  // Si tu veux définir un cookie dans la réponse
-  cookieStore.set("exampleCookie", "cookieValue", { path: "/" });
-
-  return supabase;
-};
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
+          } catch {
+            // The `setAll` method was called from a Server Component.
+            // This can be ignored if you have middleware refreshing
+            // user sessions.
+          }
+        },
+      },
+    }
+  )
+}
