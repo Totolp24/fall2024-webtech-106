@@ -48,11 +48,12 @@ const Home = () => {
       if (commentsError) console.error(commentsError);
       else {
         // Grouper les commentaires par `postID`
-        const groupedComments = commentsData.reduce((acc: any, comment: Comment) => {
+        const groupedComments = commentsData.reduce((acc: { [key: string]: Comment[] }, comment: Comment) => {
           acc[comment.postID] = acc[comment.postID] || [];
           acc[comment.postID].push(comment);
           return acc;
         }, {});
+        
         setComments(groupedComments);
       }
 
@@ -63,10 +64,11 @@ const Home = () => {
 
       if (likesError) console.error(likesError);
       else {
-        const likesMap = likesData.reduce((acc: any, like: { postID: string }) => {
+        const likesMap = likesData.reduce((acc: { [key: string]: boolean }, like: { postID: string }) => {
           acc[like.postID] = true;
           return acc;
         }, {});
+        
         setUserLikes(likesMap);
       }
     };

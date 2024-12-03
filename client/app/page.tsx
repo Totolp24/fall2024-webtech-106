@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "@/component/Header";
 
 const HomePage: React.FC = () => {
-  const [error, setError] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -61,8 +60,6 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {error && <p className="text-center text-red-500">{error}</p>}
     </div>
   );
 };

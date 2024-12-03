@@ -1,10 +1,9 @@
 "use client";
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
-import Cookies from "js-cookie"; // Importer js-cookie pour gérer les cookies
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");

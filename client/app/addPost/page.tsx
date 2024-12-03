@@ -24,8 +24,19 @@ const CreatePost = () => {
 
     // Insérer un nouveau post dans Supabase
     const { data, error: insertError } = await supabase
-      .from('post')
-      .insert([{ content, picture}]);
+  .from('post')
+  .insert([{ content, picture }]);
+
+if (insertError) {
+  setError("Une erreur s'est produite lors de la création du post.");
+  console.error(insertError);
+} else {
+  console.log('New post created:', data); // You can log or use data here
+  setContent('');
+  setPicture('');
+  alert("Post créé avec succès !");
+}
+
 
     setLoading(false);
 
