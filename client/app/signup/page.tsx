@@ -49,7 +49,7 @@ const Signup: React.FC = () => {
       alert("Inscription réussie ! Un email de confirmation a été envoyé.");
 
       // Ajouter l'utilisateur dans la table 'userData' après une inscription réussie dans Supabase Auth
-      const { error: insertError } = await supabase
+      const {  error: insertError } = await supabase
         .from("userData")
         .insert([{ mail: email, username: username, userid: data.user.id }]); // Assurez-vous d'utiliser data.user.id ici
 

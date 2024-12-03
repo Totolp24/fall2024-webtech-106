@@ -36,13 +36,6 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if(!user){
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
-
-    console.log("CHips");
-  }
   if (
     !user &&
     !request.nextUrl.pathname.startsWith("/login") 

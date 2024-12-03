@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients";
+import {redirect} from "next/navigation";
 
 const User: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -30,14 +31,13 @@ const User: React.FC = () => {
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
-      options: {
-        redirectTo: `http://localhost:3000/auth/callback`,
-      },
-    });
+   
+    })
 
     if (error) {
       setError(error.message); // Afficher l'erreur en cas de problème
     } else {
+
       // Supabase gère la redirection après la connexion OAuth
     }
   };
