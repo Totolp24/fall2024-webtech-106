@@ -1,6 +1,4 @@
 "use client";
-
-import React, { useState } from "react";
 import Header from "@/component/Header";
 
 const HomePage: React.FC = () => {

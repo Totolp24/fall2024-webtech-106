@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients";
-import {redirect} from "next/navigation";
 
 const User: React.FC = () => {
   const [email, setEmail] = useState("");
