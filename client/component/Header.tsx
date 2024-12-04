@@ -25,16 +25,7 @@ export default function Header() {
     setUser(null); // Clear the user state after signing out
   };
 
-
-
-  useEffect(() => {
-    setIsClient(true);
-    // Logique pour vérifier si l'utilisateur est connecté
-    // Exemple avec localStorage ou un autre mécanisme
-    // setIsLoggedIn(localStorage.getItem("user") ? true : false);
-  }, []);
-
-
+  
   return (
     <header className="w-full bg-header text-white shadow-md py-4"> {/* bg-header utilisé ici */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">

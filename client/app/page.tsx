@@ -142,9 +142,6 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Affichage d'une erreur s'il y en a */}
-      {error && <p className="text-center text-red-500">{error}</p>}
     </div>
   );
 };
