@@ -1,8 +1,7 @@
 "use client";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
 

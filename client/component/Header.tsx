@@ -27,10 +27,16 @@ export default function Header() {
 
 
 
+  useEffect(() => {
+    setIsClient(true);
+    // Logique pour vérifier si l'utilisateur est connecté
+    // Exemple avec localStorage ou un autre mécanisme
+    // setIsLoggedIn(localStorage.getItem("user") ? true : false);
+  }, []);
 
 
   return (
-    <header className="w-full bg-gradient-to-r from-blue-800 to-blue-600 shadow-md py-4">
+    <header className="w-full bg-header text-white shadow-md py-4"> {/* bg-header utilisé ici */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <h1 className="text-white text-3xl font-bold">Lok-E</h1>
 
