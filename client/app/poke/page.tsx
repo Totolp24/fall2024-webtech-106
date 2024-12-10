@@ -39,9 +39,10 @@ export default function Home() {
       
       setHasMore(response.data.next !== null); // Check if there is more data to load
       setLoading(false);
-    } catch (err: unknown) {
+    } catch (err) {
+      // Improved error handling
       if (err instanceof Error) {
-        setError(err.message);
+        setError(err.message); // Type-safe access to error message
       } else {
         setError('Erreur de chargement des données');
       }
