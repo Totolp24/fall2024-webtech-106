@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/clients';
-import Header from '@/component/Header';
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/clients";
+import Header from "@/component/Header";
 
 const supabase = createClient();
 
-// Définir les types
+// Types
 type Post = {
   id: string;
   content: string;
@@ -23,162 +23,126 @@ type Comment = {
   created_at: string;
 };
 
+
+
 const Home = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [comments, setComments] = useState<{ [key: string]: Comment[] }>({});
   const [newComment, setNewComment] = useState<{ [key: string]: string }>({});
-  const [userLikes, setUserLikes] = useState<{ [key: string]: boolean }>({});
+  const [user, setUser] = useState<any>(null);
+
+  
+
 
   useEffect(() => {
-    const fetchPostsAndComments = async () => {
-      // Charger les posts
-      const { data: postsData, error: postsError } = await supabase
-        .from('post')
-        .select('*')
-        .order('created_at', { ascending: false });
+    
 
-      if (postsError) console.error(postsError);
-      else setPosts(postsData);
+    const fetchUser = async () => {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        setUser(user);
+      }
+    };
 
-      // Charger les commentaires pour chaque post
-      const { data: commentsData, error: commentsError } = await supabase
-        .from('comment')
-        .select('*');
+    const fetchPostsAndData = async () => {
+     
 
-      if (commentsError) console.error(commentsError);
-      else {
-        // Grouper les commentaires par `postID`
-        const groupedComments = commentsData.reduce((acc: { [key: string]: Comment[] }, comment: Comment) => {
+
+
+    // Attendez que toutes les mises à jour soient terminées
+
+
+      try {
+        // Fetch posts
+        const { data: postsData, error: postsError } = await supabase
+          .from("post")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (postsError) throw postsError;
+        setPosts(postsData || []);
+
+        // Fetch comments
+        const { data: commentsData, error: commentsError } = await supabase
+          .from("comment")
+          .select("*");
+
+        if (commentsError) throw commentsError;
+
+        const groupedComments = commentsData?.reduce((acc: { [key: string]: Comment[] }, comment: Comment) => {
           acc[comment.postID] = acc[comment.postID] || [];
           acc[comment.postID].push(comment);
           return acc;
         }, {});
-        setComments(groupedComments);
-      }
+        setComments(groupedComments || {});
 
-      // Charger les likes de l'utilisateur actuel
-      const { data: likesData, error: likesError } = await supabase
-        .from('post_likes')
-        .select('postID');
 
-      if (likesError) console.error(likesError);
-      else {
-        const likesMap = likesData.reduce((acc: { [key: string]: boolean }, like: { postID: string }) => {
-          acc[like.postID] = true;
-          return acc;
-        }, {});
-        setUserLikes(likesMap);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
     };
-
-    fetchPostsAndComments();
+    fetchUser();
+    fetchPostsAndData();
   }, []);
 
-  const toggleLike = async (postId: string) => {
-    // Vérifier si le post a déjà un like
-    const { data: existingLike, error: likeError } = await supabase
-      .from('post_likes')
-      .select('*')
-      .eq('postID', postId) // Rechercher les likes pour ce post
-      .single(); // On prend le premier résultat car il devrait y en avoir un ou aucun
-  
-    if (likeError) {
-      console.error('Error checking like status:', likeError);
-      return;
-    }
-  
-    // Si aucun like n'existe pour ce post, ajouter un like
-    if (!existingLike) {
-      const { error: insertError } = await supabase
-        .from('post_likes')
-        .insert([{ postID: postId }]); // On insère un like pour ce post
-  
-      if (insertError) {
-        console.error('Error adding like:', insertError);
-        return;
-      }
-    } else {
-      // Si le post a déjà un like, supprimer le like
-      const { error: deleteError } = await supabase
-        .from('post_likes')
-        .delete()
-        .eq('postID', postId); // Supprimer le like pour ce post
-  
-      if (deleteError) {
-        console.error('Error removing like:', deleteError);
-        return;
-      }
-    }
-  
-    // Comptage des likes : compter le nombre de lignes dans post_likes pour ce post
-    const { count, error: countError } = await supabase
-      .from('post_likes')
-      .select('*', { count: 'exact' })
-      .eq('postID', postId); // On compte toutes les lignes pour ce post
-  
-    if (countError) {
-      console.error('Error counting likes:', countError);
-      return;
-    }
-  
-    // Mettre à jour l'état local avec le nouveau nombre de likes
-    setPosts((prevPosts) =>
-        prevPosts.map((p) =>
-          p.id === postId ? { ...p, likeCount: count } : p // Mettre à jour comme "likeCount"
-        )
-      );
-      
-  };
-  
-
   const handleComment = async (postId: string) => {
-    const comment = newComment[postId] || '';
-    if (comment.trim()) {
-      const { data, error } = await supabase
-        .from('comment')
-        .insert([{ postID: postId, content: comment }]);
-  
-      if (error) {
-        console.error(error);
-      } else {
-        // Vérification si 'data' contient un élément ou est un objet non vide
-        if (data && Object.keys(data).length > 0) {
-          // Ajouter le nouveau commentaire localement
+    if (!user) {
+      alert("You need to be logged in to comment.");
+      return;
+    }
+
+    const commentContent = newComment[postId] || "";
+    if (commentContent.trim()) {
+      try {
+        const { data, error } = await supabase
+          .from("comment")
+          .insert({
+            postID: postId,
+            userID: user.id,
+            content: commentContent,
+          })
+          .select();
+
+        if (error) {
+          console.error("Error adding comment:", error);
+        } else {
           setComments((prevComments) => ({
             ...prevComments,
-            [postId]: [...(prevComments[postId] || []), data], // Ajouter l'objet de données retourné
+            [postId]: [...(prevComments[postId] || []), data[0]],
           }));
-          setNewComment({ ...newComment, [postId]: '' }); // Réinitialiser le champ de commentaire
-        } else {
-          console.error('No comment data returned');
+          setNewComment({ ...newComment, [postId]: "" });
         }
+      } catch (error) {
+        console.error("Unexpected error:", error);
       }
     }
   };
-  
 
   return (
     <>
       <Header />
       <main className="container mx-auto p-4">
+        {user ? (
+          <p className="text-green-600">Welcome, {user.email}!</p>
+        ) : (
+          <p className="text-red-600">You are not logged in. Please log in to interact.</p>
+        )}
+
         <h2 className="text-2xl font-bold mb-4">All Posts</h2>
         <div className="space-y-6">
           {posts.map((post) => (
             <div key={post.id} className="border rounded-lg p-4 shadow-md">
               <p className="text-gray-700">{post.content}</p>
               <div className="mt-4 flex items-center space-x-4">
-                <button
-                  onClick={() => toggleLike(post.id)}
-                  className={`px-4 py-2 rounded text-white ${
-                    userLikes[post.id] ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'
-                  }`}
-                >
-                  {userLikes[post.id] ? 'Unlike' : 'Like'} ({post.like || 0})
-                </button>
                 <input
                   type="text"
                   placeholder="Add a comment..."
-                  value={newComment[post.id] || ''}
+                  value={newComment[post.id] || ""}
                   onChange={(e) => setNewComment({ ...newComment, [post.id]: e.target.value })}
                   className="border p-2 rounded w-full max-w-sm"
                 />
