@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* eslint-disable @next/next/no-img-element */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -40,14 +39,19 @@ export default function Home() {
         const pokemonData = results.map((response) => response.data);
         setPokemons(pokemonData);
         setLoading(false);
-      } catch (err) {
-        setError("Erreur de chargement des données");
+      } catch (err: unknown) { // Utilisez le type "unknown" pour des erreurs non typées
+        if (err instanceof Error) {
+          setError(err.message); // Accédez à message si err est une instance d'Error
+        } else {
+          setError("Erreur de chargement des données");
+        }
         setLoading(false);
       }
     };
-
+  
     fetchPokemons();
   }, []);
+  
 
   if (loading) return <div>Chargement...</div>;
   if (error) return <div>{error}</div>;
