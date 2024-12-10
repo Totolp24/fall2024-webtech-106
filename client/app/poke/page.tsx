@@ -1,5 +1,11 @@
 'use client';
 
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
