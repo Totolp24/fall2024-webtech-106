@@ -2,32 +2,27 @@
 
 import React, { useState } from "react";
 import Header from "@/component/Header";
+import Footer from "@/component/footer";
 
 const HomePage: React.FC = () => {
-
-  // Liste des images pour le carrousel
   const images = [
-    "https://images.unsplash.com/photo-1604015200543-d77f3b47855d", // Exemple d'image
+    "/images/carousel1.png",
     "https://your-image-url2.com",
     "https://your-image-url3.com",
     "https://your-image-url4.com",
-    "https://your-image-url5.com"
+    "https://your-image-url5.com",
   ];
 
-  // Index de l'image courante
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Fonction pour aller à l'image suivante
   const nextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
-  // Fonction pour aller à l'image précédente
   const prevImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
-  // Fonction pour changer l'image via les points de navigation
   const goToImage = (index: number) => {
     setCurrentIndex(index);
   };
@@ -50,9 +45,15 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* Carrousel section pour "Our Games" */}
-      <div className="py-16">
-        <div className="container mx-auto px-4 text-center">
+      <div className="py-16 w-full">
+        <div className="text-center">
+          {/* Barre noire avant */}
+          <div className="w-full h-2 bg-black mb-8"></div>
+
           <h2 className="text-3xl font-bold text-gray-200 mb-8">Our Games</h2>
+
+          {/* Barre noire après */}
+          <div className="w-full h-2 bg-black mt-8 mb-16"></div>
 
           {/* Carrousel */}
           <div className="relative w-full h-[60vh] overflow-hidden">
@@ -61,7 +62,7 @@ const HomePage: React.FC = () => {
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {images.map((image, index) => (
-                <div key={index} className="w-full h-full flex-shrink-0">
+                <div key={index} className="w-full flex-shrink-0">
                   <img
                     src={image}
                     alt={`Game ${index + 1}`}
@@ -71,9 +72,8 @@ const HomePage: React.FC = () => {
               ))}
             </div>
 
-            {/* Points de navigation et boutons dans un cadre arrondi */}
+            {/* Points de navigation et boutons */}
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] sm:w-[300px] p-4 bg-black bg-opacity-50 rounded-full flex justify-between items-center z-10">
-              {/* Boutons de navigation */}
               <button
                 className="text-white p-1.5 rounded-full hover:bg-gray-600 transition-all"
                 onClick={prevImage}
@@ -90,22 +90,20 @@ const HomePage: React.FC = () => {
                 </svg>
               </button>
 
-              {/* Points de navigation */}
               <div className="flex space-x-2">
                 {images.map((_, index) => (
                   <button
                     key={index}
                     className={`w-2.5 h-2.5 rounded-full border-2 transition-all ${
                       currentIndex === index
-                        ? "bg-white border-white" // Fond blanc et bord blanc quand actif
-                        : "bg-transparent border-gray-300" // Transparent avec bord gris clair quand inactif
+                        ? "bg-white border-white"
+                        : "bg-transparent border-gray-300"
                     }`}
                     onClick={() => goToImage(index)}
                   />
                 ))}
               </div>
 
-              {/* Boutons de navigation */}
               <button
                 className="text-white p-1.5 rounded-full hover:bg-gray-600 transition-all"
                 onClick={nextImage}
@@ -129,19 +127,22 @@ const HomePage: React.FC = () => {
       {/* Contact Info section */}
       <div className="py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-200 mb-8">Contact Us</h2>
-          <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold text-gray-200 mb-8">Last articles</h2>
+          <div className="bg-red-800 p-8 rounded-lg shadow-lg">
             <p className="text-lg text-gray-300 mb-4">
-              For inquiries, partnerships, or just to say hi, feel free to reach out!
+              Login and join our community!
             </p>
             <div className="space-y-4">
-              <p className="text-lg text-gray-400">Email: contact@lokegames.com</p>
-              <p className="text-lg text-gray-400">Phone: +123 456 7890</p>
-              <p className="text-lg text-gray-400">Address: 123 Game Street, City, Country</p>
+              <p className="text-lg text-gray-400">A</p>
+              <p className="text-lg text-gray-400">B</p>
+              <p className="text-lg text-gray-400">C</p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

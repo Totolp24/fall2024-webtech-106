@@ -9,76 +9,82 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null); // State to store the user
   const supabase = createClient();
 
-  
   // Fetch the user when the component mounts
-  const connected = async ()=>{
+  const connected = async () => {
     const {
       data: { user },
-    } = await supabase.auth.getUser()
+    } = await supabase.auth.getUser();
     setUser(user);
   };
 
-  connected();
+  useEffect(() => {
+    connected();
+  }, []);
 
   const signout = async () => {
     await supabase.auth.signOut();
     setUser(null); // Clear the user state after signing out
   };
 
-  
   return (
-    <header className="w-full bg-header text-white shadow-md py-4"> {/* bg-header utilisé ici */}
+    <header className="w-full bg-header text-white shadow-md py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <h1 className="text-white text-3xl font-bold">Lok-E</h1>
-
-        <nav className="flex items-center gap-8">
+        {/* Bouton à droite : Le logo Lok-E */}
+        <div className="ml-auto">
           <Link
             href="/"
-            className="text-white hover:text-blue-200 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105 hover:bg-blue-700"
+            className="text-white text-3xl font-bold hover:text-blue-200"
           >
-            Accueil
+            Lok-E
           </Link>
+        </div>
+
+        {/* Boutons du centre : Feed et Ajouter un post */}
+        <nav className="flex items-center gap-8">
           <Link
-            href="/allPost"
+            href="/feed"
             className="text-white hover:text-blue-200 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105 hover:bg-blue-700"
           >
-            Fil d'actualité
+            Feed
           </Link>
-          <Link
-            href="/settings"
-            className="text-white hover:text-blue-200 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105 hover:bg-blue-700"
-          >
-            Settings
-          </Link>
-          {/* Nouveau bouton "Ajouter un post" */}
           <Link
             href="/addPost"
-            className="bg-transparent text-white border-2 border-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105"
+            className="text-white hover:text-blue-200 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105 hover:bg-blue-700"
           >
-            Ajouter un post
+            add a post
           </Link>
         </nav>
 
-        {/* Conteneur du bouton séparé à droite */}
-        <div className="ml-auto">
-          {/* Bouton dynamique en fonction de l'état de connexion */}
-          {!user?(
-            <Link
-              href="/login"
-              className="bg-transparent text-white border-2 border-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105"
-            >
-              Se connecter
-            </Link>
-) : (
+        {/* Boutons de gauche : Login et SignUp */}
+        <div className="flex items-center gap-4">
+          {!user ? (
+            <>
+              <Link
+                href="/login"
+                className="text-white px-6 py-3 rounded-md transition-all hover:bg-blue-700 hover:text-white"
+              >
+                login
+              </Link>
+              <Link
+                href="/sign-up"
+                className="text-white px-6 py-3 rounded-md transition-all hover:bg-blue-700 hover:text-white"
+              >
+                sign up
+              </Link>
+            </>
+          ) : null}
+        </div>
+
+        {/* Bouton déconnexion */}
+        <div className="ml-4">
+          {user && (
             <button
-              className="bg-transparent text-white border-2 border-red-700 hover:bg-white hover:text-red-700 hover:border-red-700 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105"
+              className="text-white border-2 border-red-700 px-6 py-3 rounded-md transition-all hover:bg-white hover:text-red-700"
               onClick={signout}
             >
-              Se déconnecter
+              disconnect
             </button>
-          )
-
-          }
+          )}
         </div>
       </div>
     </header>
