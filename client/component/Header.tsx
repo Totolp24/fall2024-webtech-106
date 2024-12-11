@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/clients";
-import { User } from '@supabase/supabase-js'; // Import the User type
+import { User } from '@supabase/supabase-js';
 import Link from "next/link";
 
 export default function Header() {
-  const [user, setUser] = useState<User | null>(null); // State to store the user
+  const [user, setUser] = useState<User | null>(null);
+  const [searchQuery, setSearchQuery] = useState(""); // State to store the search query
+  const [isClient, setIsClient] = useState(false); // State to check if it's client-side
   const supabase = createClient();
 
   // Fetch the user when the component mounts
@@ -19,11 +21,19 @@ export default function Header() {
 
   useEffect(() => {
     connected();
+    setIsClient(true); // Set to true when the component is mounted on the client
   }, []);
 
   const signout = async () => {
     await supabase.auth.signOut();
-    setUser(null); // Clear the user state after signing out
+    setUser(null);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isClient) {
+      window.location.href = `/search?query=${searchQuery}`;
+    }
   };
 
   return (
@@ -42,7 +52,7 @@ export default function Header() {
         {/* Boutons du centre : Feed et Ajouter un post */}
         <nav className="flex items-center gap-8">
           <Link
-            href="/feed"
+            href="/allPost"
             className="text-white hover:text-blue-200 text-lg px-6 py-3 rounded-md transition-all transform hover:scale-105 hover:bg-blue-700"
           >
             Feed
@@ -55,6 +65,23 @@ export default function Header() {
           </Link>
         </nav>
 
+        {/* Search bar */}
+        <form onSubmit={handleSearch} className="flex items-center gap-4">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+            className="px-4 py-2 rounded-md text-black"
+          />
+          <button
+            type="submit"
+            className="text-white px-6 py-3 rounded-md transition-all hover:bg-blue-700 hover:text-white"
+          >
+            Search
+          </button>
+        </form>
+
         {/* Boutons de gauche : Login et SignUp */}
         <div className="flex items-center gap-4">
           {!user ? (
@@ -66,7 +93,7 @@ export default function Header() {
                 login
               </Link>
               <Link
-                href="/sign-up"
+                href="/signup"
                 className="text-white px-6 py-3 rounded-md transition-all hover:bg-blue-700 hover:text-white"
               >
                 sign up

@@ -42,6 +42,8 @@ export async function updateSession(request: NextRequest) {
     && !request.nextUrl.pathname.startsWith("/auth")
     && !request.nextUrl.pathname.startsWith("/allPost") 
     && !request.nextUrl.pathname.startsWith("/signup")
+    && !request.nextUrl.pathname.startsWith("/search")
+    && !request.nextUrl.pathname.startsWith("/poke")
     && !request.nextUrl.pathname.endsWith("/")
   ){
     // no user, potentially respond by redirecting the user to the login page
@@ -51,6 +53,12 @@ export async function updateSession(request: NextRequest) {
   }
 
   if(user && request.nextUrl.pathname.startsWith("/login")){
+    const url = request.nextUrl.clone()
+    url.pathname = "/user"
+    return NextResponse.redirect(url)
+  }
+
+  if(user && request.nextUrl.pathname.startsWith("/signup")){
     const url = request.nextUrl.clone()
     url.pathname = "/user"
     return NextResponse.redirect(url)

@@ -8,7 +8,6 @@ const supabase = createClient();
 
 const CreatePost = () => {
   const [content, setContent] = useState<string>(''); // Contenu du post
-  const [picture, setPicture] = useState<string>(''); // Optionnel: Image associée au post
   const [error, setError] = useState<string>(''); // Erreurs lors de la création
   const [loading, setLoading] = useState<boolean>(false); // Indicateur de chargement
   const [userId, setUserId] = useState<string | null>(null); // ID de l'utilisateur
@@ -45,7 +44,6 @@ const CreatePost = () => {
     } else {
       console.log('New post created:', data); // You can log or use data here
       setContent('');
-      setPicture('');
       alert("Post créé avec succès !");
     }
 
