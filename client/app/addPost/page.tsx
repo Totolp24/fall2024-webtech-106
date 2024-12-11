@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/clients';
 import Header from '@/component/Header';
 
@@ -11,6 +11,18 @@ const CreatePost = () => {
   const [picture, setPicture] = useState<string>(''); // Optionnel: Image associée au post
   const [error, setError] = useState<string>(''); // Erreurs lors de la création
   const [loading, setLoading] = useState<boolean>(false); // Indicateur de chargement
+  const [userId, setUserId] = useState<string | null>(null); // ID de l'utilisateur
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,31 +36,20 @@ const CreatePost = () => {
 
     // Insérer un nouveau post dans Supabase
     const { data, error: insertError } = await supabase
-  .from('post')
-  .insert([{ content, picture }]);
-
-if (insertError) {
-  setError("Une erreur s'est produite lors de la création du post.");
-  console.error(insertError);
-} else {
-  console.log('New post created:', data); // You can log or use data here
-  setContent('');
-  setPicture('');
-  alert("Post créé avec succès !");
-}
-
-
-    setLoading(false);
+      .from('post')
+      .insert([{ content, userID: userId }]);
 
     if (insertError) {
       setError("Une erreur s'est produite lors de la création du post.");
       console.error(insertError);
     } else {
-      // Rediriger ou réinitialiser l'état (par exemple, après la soumission réussie)
+      console.log('New post created:', data); // You can log or use data here
       setContent('');
       setPicture('');
       alert("Post créé avec succès !");
     }
+
+    setLoading(false);
   };
 
   return (
@@ -64,16 +65,6 @@ if (insertError) {
               placeholder="Écrivez votre post..."
               className="border p-4 rounded w-full"
               rows={6}
-            />
-          </div>
-
-          <div>
-            <input
-              type="text"
-              value={picture}
-              onChange={(e) => setPicture(e.target.value)}
-              placeholder="URL de l'image (optionnel)"
-              className="border p-2 rounded w-full"
             />
           </div>
 
