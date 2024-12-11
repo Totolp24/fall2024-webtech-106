@@ -1,6 +1,11 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+/* eslint-disable @next/next/no-img-element */
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation"; // Hook to read query params
 import { createClient } from "@/utils/supabase/clients";
