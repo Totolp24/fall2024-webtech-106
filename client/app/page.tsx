@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/component/Header";
 import Footer from "@/component/footer";
 
@@ -14,6 +14,22 @@ const HomePage: React.FC = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setIsDarkMode(darkModeMediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsDarkMode(e.matches);
+    };
+
+    darkModeMediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      darkModeMediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
 
   const nextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -28,7 +44,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-dark-to-red bg-[length:200%_200%] animate-gradient">
+    <div className={`min-h-screen w-full flex flex-col bg-[length:200%_200%] animate-gradient ${isDarkMode ? 'bg-dark-to-red' : 'bg-light-to-red'}`}>
       <Header />
 
       {/* Large photo section */}
