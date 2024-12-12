@@ -30,6 +30,7 @@ export default {
       },
       backgroundImage: {
         'dark-to-red': "linear-gradient(270deg, #0d0d0d, #1a1a1a, #b11226, #0d0d0d)",
+        
       },
     },
   },
