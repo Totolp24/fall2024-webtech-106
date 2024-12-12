@@ -54,13 +54,13 @@ export async function updateSession(request: NextRequest) {
 
   if(user && request.nextUrl.pathname.startsWith("/login")){
     const url = request.nextUrl.clone()
-    url.pathname = "/user"
+    url.pathname = "/Profil"
     return NextResponse.redirect(url)
   }
 
   if(user && request.nextUrl.pathname.startsWith("/signup")){
     const url = request.nextUrl.clone()
-    url.pathname = "/user"
+    url.pathname = "/Profil"
     return NextResponse.redirect(url)
   }
 

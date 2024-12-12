@@ -101,7 +101,7 @@ export default function Header() {
             </>
           ) : (
             <Link
-              href="/profil"
+              href="/Profil"
               className="text-white px-6 py-3 rounded-md transition-all hover:bg-blue-700 hover:text-white"
             >
               Profil

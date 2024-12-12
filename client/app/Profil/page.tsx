@@ -1,136 +1,105 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/clients'; // Client Supabase côté navigateur
-import md5 from 'md5'; // Importer une librairie pour générer le hash MD5
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import { createClient } from "@/utils/supabase/clients";
+import Header from "@/component/Header";
+import md5 from "md5";
 
-interface UserProfile {
+const supabase = createClient();
+
+type User = {
   id: string;
   email: string;
-  username: string;
-}
+  displayName: string;
+  avatarUrl: string;
+};
 
-export default function ProfilePage() {
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [username, setUsername] = useState<string>('');
+const Home = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [newDisplayName, setNewDisplayName] = useState<string>("");
 
   useEffect(() => {
     const fetchUser = async () => {
-      const supabase = createClient();
-      try {
-        const {
-          data: { user: authUser },
-        } = await supabase.auth.getUser();
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
 
-        if (!authUser) {
-          setError('Utilisateur non connecté.');
-          setLoading(false);
-          return;
-        }
-
-        const { data, error } = await supabase
-          .from('users')
-          .select('id, email, username')
-          .eq('id', authUser.id)
-          .single();
-
-        if (error) {
-          setError('Impossible de récupérer les informations utilisateur.');
-          console.error(error);
-        } else {
-          setUser(data);
-          setUsername(data.username);
-        }
-      } catch (err) {
-        setError('Une erreur inattendue est survenue.');
-        console.error('Error:', err);
-      } finally {
-        setLoading(false);
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else if (user) {
+        const email = user.email || "";
+        const avatarUrl = `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon`;
+        setUser({
+          id: user.id,
+          email,
+          displayName: user.user_metadata?.displayName || "",
+          avatarUrl,
+        });
+        setNewDisplayName(user.user_metadata?.displayName || "");
       }
     };
 
     fetchUser();
   }, []);
 
-  const handleLogout = async () => {
-    const supabase = createClient();
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Erreur lors de la déconnexion :', error);
-    } else {
-      setUser(null);
-    }
-  };
-
-  const handleUpdateProfile = async () => {
-    const supabase = createClient();
+  const handleDisplayNameChange = async () => {
+    if (!user) return;
     try {
-      const { error } = await supabase
-        .from('users')
-        .update({ username })
-        .eq('id', user?.id);
-
-      if (error) {
-        setError('Impossible de mettre à jour les informations utilisateur.');
-        console.error(error);
-      } else {
-        setUser({ ...user, username } as UserProfile);
-      }
-    } catch (err) {
-      setError('Une erreur inattendue est survenue.');
-      console.error('Error:', err);
+      const { error } = await supabase.auth.updateUser({
+        data: { displayName: newDisplayName },
+      });
+      if (error) throw error;
+      setUser((prevUser) =>
+        prevUser ? { ...prevUser, displayName: newDisplayName } : null
+      );
+      alert("Display name updated successfully!");
+    } catch (error) {
+      console.error("Error updating display name:", error);
+      alert("Failed to update display name.");
     }
   };
-
-  const getGravatarUrl = (email: string, size: number = 150) => {
-    const hash = md5(email.trim().toLowerCase());
-    return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=identicon`;
-  };
-
-  if (loading) return <div>Chargement...</div>;
-  if (error) return <div>Erreur : {error}</div>;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Profil utilisateur</h1>
-      {user ? (
-        <div className="border p-4 rounded-lg shadow-md">
-          <img
-            src={getGravatarUrl(user.email)} // Utiliser Gravatar
-            alt="Avatar utilisateur"
-            className="w-24 h-24 rounded-full mb-4"
-          />
-          <p><strong>ID :</strong> {user.id}</p>
-          <p><strong>Email :</strong> {user.email}</p>
-          <div className="mt-4">
-            <label className="block mb-2 font-semibold">
-              Nom d'utilisateur :
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="border p-2 rounded w-full"
+    <>
+      <Header />
+      <main className="container mx-auto p-4">
+        {user ? (
+          <div>
+            <h2 className="text-2xl font-bold mt-4">User Profile</h2>
+            <div className="mt-4 space-y-4">
+              <img
+                src={user.avatarUrl}
+                alt="User Avatar"
+                className="w-24 h-24 rounded-full"
               />
-            </label>
-            <button
-              onClick={handleUpdateProfile}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Mettre à jour le nom d'utilisateur
-            </button>
+              <p className="text-lg font-medium">Email: {user.email}</p>
+              <p className="text-lg font-medium">Display Name: {user.displayName}</p>
+
+              <div>
+                <label className="block font-medium">Update Display Name:</label>
+                <input
+                  type="text"
+                  value={newDisplayName}
+                  onChange={(e) => setNewDisplayName(e.target.value)}
+                  className="border rounded p-2 w-full"
+                />
+                <button
+                  onClick={handleDisplayNameChange}
+                  className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                  Update Display Name
+                </button>
+              </div>
+            </div>
           </div>
-          <button
-            onClick={handleLogout}
-            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          >
-            Se déconnecter
-          </button>
-        </div>
-      ) : (
-        <p>Aucune information utilisateur disponible.</p>
-      )}
-    </div>
+        ) : (
+          <p className="text-red-600">You are not logged in. Please log in to interact.</p>
+        )}
+      </main>
+    </>
   );
-}
+};
+
+export default Home;
