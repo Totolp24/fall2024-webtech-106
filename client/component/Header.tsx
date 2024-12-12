@@ -39,8 +39,8 @@ export default function Header() {
   return (
     <header className="w-full bg-header text-white shadow-md py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Bouton à droite : Le logo Lok-E */}
-        <div className="ml-auto">
+        {/* Bouton à gauche : Le logo Lok-E */}
+        <div className="mr-auto">
           <Link
             href="/"
             className="text-white text-3xl font-bold hover:text-blue-200"
@@ -82,7 +82,7 @@ export default function Header() {
           </button>
         </form>
 
-        {/* Boutons de gauche : Login et SignUp */}
+        {/* Boutons de droite : Login, SignUp, et Profil */}
         <div className="flex items-center gap-4">
           {!user ? (
             <>
@@ -99,7 +99,14 @@ export default function Header() {
                 sign up
               </Link>
             </>
-          ) : null}
+          ) : (
+            <Link
+              href="/profil"
+              className="text-white px-6 py-3 rounded-md transition-all hover:bg-blue-700 hover:text-white"
+            >
+              Profil
+            </Link>
+          )}
         </div>
 
         {/* Bouton déconnexion */}
