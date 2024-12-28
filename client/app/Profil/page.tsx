@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/clients";
 import Header from "@/component/Header";
 import md5 from "md5";
+import { useRouter } from "next/navigation";
 
 const supabase = createClient();
 
@@ -18,6 +19,7 @@ type User = {
 const Home = () => {
   const [user, setUser] = useState<User | null>(null);
   const [newDisplayName, setNewDisplayName] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -61,6 +63,10 @@ const Home = () => {
     }
   };
 
+  const handleNavigateToPosts = () => {
+    router.push("/mypost");
+  };
+
   return (
     <>
       <Header />
@@ -92,6 +98,12 @@ const Home = () => {
                   Update Display Name
                 </button>
               </div>
+              <button
+                onClick={handleNavigateToPosts}
+                className="mt-4 px-4 py-2 bg-green-500 text-white rounded"
+              >
+                Go to My Posts
+              </button>
             </div>
           </div>
         ) : (
