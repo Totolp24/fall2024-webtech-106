@@ -9,6 +9,8 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Footer from "@/component/footer";
+import Header from "@/component/Header";
 
 interface PokemonType {
   name: string;
@@ -66,6 +68,7 @@ export default function Home() {
 
   return (
     <div>
+      <Header />
       <h1>Pokémons (1 à 1025)</h1>
       <div
         style={{
@@ -109,6 +112,7 @@ export default function Home() {
           Charger plus
         </button>
       )}
+      <Footer />
     </div>
   );
 }

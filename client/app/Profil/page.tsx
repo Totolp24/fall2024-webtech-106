@@ -6,6 +6,7 @@ import { createClient } from "@/utils/supabase/clients";
 import Header from "@/component/Header";
 import md5 from "md5";
 import { useRouter } from "next/navigation";
+import Footer from "@/component/footer";
 
 const supabase = createClient();
 
@@ -89,7 +90,7 @@ const Home = () => {
                   type="text"
                   value={newDisplayName}
                   onChange={(e) => setNewDisplayName(e.target.value)}
-                  className="border rounded p-2 w-full"
+                  className="border border-gray-300 rounded p-2 w-full dark:bg-gray-800"
                 />
                 <button
                   onClick={handleDisplayNameChange}
@@ -110,6 +111,7 @@ const Home = () => {
           <p className="text-red-600">You are not logged in. Please log in to interact.</p>
         )}
       </main>
+      <Footer/>
     </>
   );
 };

@@ -2,6 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
+import Footer from "@/component/footer";
 import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients"; // Utiliser le client Supabase côté navigateur
 
@@ -166,6 +167,8 @@ const Signup: React.FC = () => {
           {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
         </form>
       </div>
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

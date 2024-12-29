@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Header from "@/component/Header";
 import { createClient } from "@/utils/supabase/clients";
 
+import Footer from "@/component/footer";
 const User: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -106,6 +107,7 @@ const User: React.FC = () => {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

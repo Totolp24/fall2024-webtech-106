@@ -8,6 +8,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation"; // Hook to read query params
 import { createClient } from "@/utils/supabase/clients";
 import Header from "@/component/Header";
+import Footer from "@/component/footer";
 
 const supabase = createClient();
 
@@ -131,7 +132,7 @@ const SearchPageContent = () => {
   return (
     <div>
       {query ? (
-        <p className="mb-4 text-gray-700">
+        <p className="mb-4 text-black dark:text-white">
           Showing results for: <span className="font-bold">{query}</span>
         </p>
       ) : (
@@ -141,11 +142,11 @@ const SearchPageContent = () => {
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <div key={post.id} className="border rounded-lg p-4 shadow-md">
-              <p className="text-gray-700">{post.content}</p>
+              <p className="text-gray-800 dark:text-gray-100">{post.content}</p>
 
               <div className="mt-4">
                 <h3 className="font-semibold">Comments:</h3>
-                <ul className="space-y-2">
+                <ul className="space-y-2 ">
                   {(comments[post.id] || []).map((comment) => (
                     <li key={comment.id} className="text-gray-600">
                       {comment.content}
@@ -165,7 +166,7 @@ const SearchPageContent = () => {
                           [post.id]: e.target.value,
                         })
                       }
-                      className="border p-2 rounded w-full max-w-sm"
+                      className=" border border-gray-500 p-2 rounded w-full max-w-sm dark:bg-gray-800"
                     />
                     <button
                       onClick={() => handleComment(post.id)}
@@ -182,6 +183,7 @@ const SearchPageContent = () => {
           <p className="text-red-600">No posts found.</p>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/clients';
 import Header from '@/component/Header';
+import Footer from "@/component/footer";
 
 const supabase = createClient();
 
@@ -61,7 +62,7 @@ const CreatePost = () => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Écrivez votre post..."
-              className="border p-4 rounded w-full"
+              className="border p-4 rounded w-full dark:bg-gray-800"
               rows={6}
             />
           </div>
@@ -77,6 +78,7 @@ const CreatePost = () => {
           </button>
         </form>
       </main>
+      <Footer />
     </>
   );
 };

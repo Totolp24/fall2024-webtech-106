@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/clients";
 import Header from "@/component/Header";
+import Footer from "@/component/footer";
 
 const supabase = createClient();
 
@@ -132,16 +133,16 @@ const Home = () => {
           <p className="text-red-600">You are not logged in. Please log in to interact.</p>
         )}
 
-        <h2 className="text-2xl font-bold mb-4">My Posts</h2>
-        <div className="space-y-6">
+        <h2 className="text-2xl font-bold mb-4 ">My Posts</h2>
+        <div className="space-y-6 text-gray-800 dark:text-gray-100">
           {posts.map((post) => (
-            <div key={post.id} className="border rounded-lg p-4 shadow-md">
+            <div key={post.id} className="border rounded-lg p-4 shadow-md text-gray-800 dark:text-gray-100">
               {editingPost?.id === post.id ? (
                 <form onSubmit={handleEditSubmit}>
                   <textarea
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded dark:bg-gray-800"
                   />
                   <button type="submit" className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
                     Save
@@ -156,7 +157,7 @@ const Home = () => {
                 </form>
               ) : (
                 <>
-                  <p className="text-gray-700">{post.content}</p>
+                  <p className="text-gray-800 dark:text-gray-100">{post.content}</p>
                   <div className="flex space-x-2 mt-2">
                     <button
                       onClick={() => handleEdit(post)}
@@ -177,7 +178,7 @@ const Home = () => {
                 <h3 className="font-semibold">Comments:</h3>
                 <ul className="space-y-2">
                   {(comments[post.id] || []).map((comment) => (
-                    <li key={comment.id} className="text-gray-600">
+                    <li key={comment.id} className="text-gray-800 dark:text-gray-100">
                       {comment.content}
                     </li>
                   ))}
@@ -187,6 +188,7 @@ const Home = () => {
           ))}
         </div>
       </main>
+      <Footer />
     </>
   );
 };

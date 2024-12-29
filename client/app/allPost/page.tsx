@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/clients";
 import Header from "@/component/Header";
+import Footer from "@/component/footer";
 
 const supabase = createClient();
 
@@ -139,14 +140,14 @@ const Home = () => {
         <div className="space-y-6">
           {posts.map((post) => (
             <div key={post.id} className="border rounded-lg p-4 shadow-md">
-              <p className="text-gray-700">{post.content}</p>
+              <p className="text-gray-800 dark:text-gray-100">{post.content}</p>
               <div className="mt-4 flex items-center space-x-4">
                 <input
                   type="text"
                   placeholder="Add a comment..."
                   value={newComment[post.id] || ""}
                   onChange={(e) => setNewComment({ ...newComment, [post.id]: e.target.value })}
-                  className="border p-2 rounded w-full max-w-sm"
+                  className="border p-2 rounded w-full max-w-sm dark:bg-gray-800"
                 />
                 <button
                   onClick={() => handleComment(post.id)}
@@ -159,7 +160,7 @@ const Home = () => {
                 <h3 className="font-semibold">Comments:</h3>
                 <ul className="space-y-2">
                   {(comments[post.id] || []).map((comment) => (
-                    <li key={comment.id} className="text-gray-600">
+                    <li key={comment.id} className="text-gray-800 dark:text-gray-100">
                       {comment.content}
                     </li>
                   ))}
@@ -169,6 +170,7 @@ const Home = () => {
           ))}
         </div>
       </main>
+      <Footer />
     </>
   );
 };

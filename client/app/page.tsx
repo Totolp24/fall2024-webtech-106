@@ -7,10 +7,10 @@ import Footer from "@/component/footer";
 const HomePage: React.FC = () => {
   const images = [
     "/images/carousel1.png",
-    "https://your-image-url2.com",
-    "https://your-image-url3.com",
-    "https://your-image-url4.com",
-    "https://your-image-url5.com",
+    "/images/carousel2.png",
+    "/images/carousel3.png",
+    "/images/carousel4.png",
+    "/images/carousel5.png",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -50,26 +50,20 @@ const HomePage: React.FC = () => {
       {/* Large photo section */}
       <div className="relative w-full h-96">
         <img
-          src="https://your-image-url.com"
+          src="/images/carousel5.png"
           alt="Hero Image"
           className="object-cover w-full h-full"
         />
         <div className="absolute inset-0 bg-black opacity-40" />
         <div className="absolute inset-0 flex items-center justify-center text-white">
-          <h1 className="text-4xl font-extrabold">Welcome to Lok-E Games</h1>
+          <h1 className="text-4xl font-extrabold text-white">Welcome to Lok-E Games</h1>
         </div>
       </div>
 
       {/* Carrousel section pour "Our Games" */}
       <div className="py-16 w-full">
         <div className="text-center">
-          {/* Barre noire avant */}
-          <div className="w-full h-2 bg-black mb-8"></div>
-
-          <h2 className="text-3xl font-bold text-gray-200 mb-8">Our Games</h2>
-
-          {/* Barre noire après */}
-          <div className="w-full h-2 bg-black mt-8 mb-16"></div>
+          <h2 className="text-3xl font-bold text-gray-200 mb-8 dark:text-white text-black">Our Games</h2>
 
           {/* Carrousel */}
           <div className="relative w-full h-[60vh] overflow-hidden">
@@ -135,23 +129,6 @@ const HomePage: React.FC = () => {
                   <path d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Contact Info section */}
-      <div className="py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-200 mb-8">Last articles</h2>
-          <div className="bg-red-800 p-8 rounded-lg shadow-lg">
-            <p className="text-lg text-gray-300 mb-4">
-              Login and join our community!
-            </p>
-            <div className="space-y-4">
-              <p className="text-lg text-gray-400">A</p>
-              <p className="text-lg text-gray-400">B</p>
-              <p className="text-lg text-gray-400">C</p>
             </div>
           </div>
         </div>
