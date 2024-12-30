@@ -1,181 +1,85 @@
-# Lab Webtech v5.2
+# Digital Publishing Application 📚
 
-## 🚀 Objective
+## 🎯 Project Overview
 
-The key goals of this project are:
-- Create a server from scratch
-- Create an API
-- Create Website with framework and library
+This project showcases the knowledge acquired during the semester by building a digital publishing platform. Users can create, interact, and customize their experience through a seamless, user-friendly interface.
 
-## 📋 Prerequisites
+---
 
-Before you begin, ensure you have met the following requirements:
+## 🌟 Features
 
-- You have a Linux_System machine
-- You have installed the following dependencies :
-  1. [Node.js]([https://nodejs.org/en]).
-  
-   ```bash
-   npm install nodemon
-   ```
+- 🔐 **User Authentication**: Robust OAuth2 login system with GitHub as the provider.
+- ✍️ **Content Management**: Users can create, edit, delete, and store posts in a structured database.
+- 💬 **Community Interaction**: Enable lively discussions through a commenting system on posts.
+- 🧭 **Navigation and Accessibility**: Intuitive and responsive design for seamless user experience.
+- 🎨 **Profile Customization**: Manage and personalize profiles with settings and preferences.
+- 🌑 **Light/Dark Mode**: Persistent theme switching to match user preference.
+- 🌍 **Gravatar Integration**: Display user avatars from Gravatar across the platform.
 
-   2. [Express.js]([https://expressjs.com/]).
-    ```bash
-   npm install express
-    ```
+---
 
+## 🌐 Deployment
 
-## ⚙️ Commands
+The application is deployed and accessible at:
+- **Frontend & Backend**: [Vercel Deployment](https://lokegames.vercel.app/)
+- **Database**: Supabase instance for storage
 
-To run the project use this commands
+---
 
-1. Start the server:
-   ```bash
-   npm run dev
-   ```
-   
-2. Stop the server:
-   - CTRL^C
-  
+## ⚙️ Core Functionalities
 
-## 📄 Pages
+### 🏠 Home Page
+- A welcoming and informative homepage.
 
-The following pages are available :
+### 🔍 Navigation
+- A navigation bar linking to key pages like Home, About, Contact, etc.
 
-1. Home page
-   ```bash
-   /
-   ```
-2. about page
-   ```bash
-   /about
-   ```
-3. contacts page
-   ```bash
-   /contacts
-   ```
-4. a list of articles
-```bash
-   /articles
-   ```
+### 🔑 Login & Profile Page
+- GitHub-based authentication using Supabase.
+- Persistent user context and profile management.
 
-## 🛠️ Devlog
+### 📑 Post Management
+- **Create, Edit, and Delete Posts**: Accessible only to the post author.
+- **Paginated Post List**: Displayed with sorting by creation date.
+- **Detailed Post View**: Each post includes its content and user comments.
 
-Installation of Next.js app
+### 💬 Comment System
+- Comment form for each post, allowing users to share thoughts.
 
-Adding pages
+### 🔍 Search
+- Full-text search leveraging Supabase’s capabilities.
 
-Usage of Tailwind
+### 🛡️ Resource Access Control
+- Row Level Security (RLS) on Supabase to ensure secure access.
+- Only authenticated users can create and modify posts.
 
+### ⚙️ User Settings
+- Dashboard to modify Surname.
 
-# Blogging application - ECE Webtech project
+### 🖋️ WYSIWYG Editor
+- Rich-text editing for post creation using a WYSIWYG library.
 
-*introduction, pre-requisites, installation, usage...*
+---
 
-## Deliverables 
+## 🛠️ Technologies Used
 
-- Vercel URL: *place your URL*
-- Supabase project URL: *place your URL*
+- **Frontend**: Next.js with Tailwind CSS
+- **Backend**: Node.js/Express
+- **Database**: Supabase
+- **Styling**: Tailwind CSS with light/dark mode support
+- **Deployment**: Vercel and Supabase
 
-## Authors
+---
 
-- *Firstname LASTNAME, group*
-- *Firstname LASTNAME, group*
-- *Firstname LASTNAME, group*
+## ✨ Bonus Features
 
-## Evaluation
+- 🪝 **External API Integration**: Fetch random images using the Unsplash API.
 
-### Mandatory Tasks
+---
 
-* **Naming convention**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Project structure**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Git usage**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Code quality**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Design, UX, and content**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+## 👥 Authors
 
-* **Home page**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Navigation**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Login and profile page**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Post creation and display**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Comment creation and display**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Post modification and removal**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Search**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Use an external API**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Resource access control**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Account settings**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **WYSIWYG integration**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Gravatar integration**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
-* **Light/dark mode**
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-  * Task feedback: *Facultative, how did you find the task (difficulty, pertinence...)*
+- **Thomas LEPEU**
+- **Xavier HEITZ**
 
-### Bonus Tasks
-
-* ***Task title 1***   
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-* ***Task title 2***   
-  * Grade: *How many points you think you deserve*
-  * Comments: *How did you implement the task*
-
-## Miscellaneous
-
-### Course Feedback
-
-*Your feedback about the course, what you liked, what you disliked, what you missed...*
-
-### Project Reuse
-
-- [ ] We authorize the professors to use our project as an example for the next year students (facultative).
+---
